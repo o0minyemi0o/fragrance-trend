@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "fragrance-trend-agent": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
