@@ -41,15 +41,18 @@ export class NotionReportClient {
         children: this.buildPageContent(reportData),
       });
 
-      logger.info(`Report created successfully: ${page.url}`);
-      return { url: page.url, id: page.id };
+      const pageId = page.id;
+      const url = `https://notion.so/${pageId.replace(/-/g, '')}`;
+
+      logger.info(`Report created successfully: ${url}`);
+      return { url, id: pageId };
     } catch (error) {
       logger.error('Failed to create Notion report:', error);
       throw error;
     }
   }
 
-  async updateReport(pageId: string, reportData: NotionReportData): Promise<{ url: string }> {
+  async updateReport(pageId: string, reportData: NotionReportData): Promise<{ url: string; id: string }> {
     logger.info(`Updating Notion report: ${pageId}`);
 
     try {
@@ -72,8 +75,8 @@ export class NotionReportClient {
         children: this.buildPageContent(reportData),
       });
 
-      const page = await this.client.pages.retrieve({ page_id: pageId });
-      return { url: (page as any).url };
+      const url = `https://notion.so/${pageId.replace(/-/g, '')}`;
+      return { url, id: pageId };
     } catch (error) {
       logger.error('Failed to update Notion report:', error);
       throw error;
